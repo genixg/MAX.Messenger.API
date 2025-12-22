@@ -13,6 +13,7 @@ Unofficial .NET client for MAX Messenger API.
 
 ## Usage
 var client = new MaxApiClient("YOUR_ACCESS_TOKEN");
+
 await client.SendMessageAsync(chatId, "Hello!");
 
 
