@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+	<TargetFramework>net8.0</TargetFramework>
     <RootNamespace>MAX.Messenger.API</RootNamespace>
     <Nullable>enable</Nullable>
 	  
@@ -10,14 +10,23 @@
     <Authors>Gennady Goncharov</Authors>
     <Company>BizChatBots</Company>
     <Description>Unofficial .NET client for MAX Messenger API</Description>
-	
+
+	<PackageTags>max;messenger;bot;api</PackageTags>
+	<PackageProjectUrl>https://github.com/genixg/MAX.Messenger.API</PackageProjectUrl>
+	<PackageIcon>max-icon.png</PackageIcon>
 	<RepositoryUrl>https://github.com/genixg/MAX.Messenger.API</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	  
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<ImplicitUsings>enable</ImplicitUsings>
+	  
   </PropertyGroup>
 	
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Text.Json" Version="9.0.0" />
+	<None Include="max-icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

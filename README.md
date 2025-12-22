@@ -18,5 +18,7 @@ await client.SendMessageAsync(chatId, "Hello!");
 
 
 ## Installation
-```bash
-dotnet add package MAX.Messenger.API
+bash: dotnet add package MAX.Messenger.API
+
+## Links
+Official MAX API: https://dev.max.ru/docs-api
