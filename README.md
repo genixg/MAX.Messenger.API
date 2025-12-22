@@ -1,6 +1,7 @@
 ﻿# MAX.Messenger.API
 
 Unofficial .NET client for MAX Messenger API.
+
 ⚠️ Not affiliated with MAX.
 
 ## Features
