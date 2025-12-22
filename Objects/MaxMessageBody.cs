@@ -30,12 +30,12 @@ namespace MAX.Messenger.API.Objects
         /// Вложения сообщения. Могут быть одним из типов Attachment. Смотрите описание схемы
         /// </summary>
         [JsonPropertyName("attachments")]
-        public IEnumerable<MaxMessageAttachment> Attachments { get; set; }
+        public IEnumerable<MaxMessageAttachment>? Attachments { get; set; }
 
         /// <summary>
         /// Разметка текста сообщения. Для подробной информации загляните в раздел Форматирование документации
         /// </summary>
         [JsonPropertyName("markup")]
-        public IEnumerable<MaxMessageMarkup> Markup { get; set; }
+        public IEnumerable<MaxMessageMarkup>? Markup { get; set; }
     }
 }

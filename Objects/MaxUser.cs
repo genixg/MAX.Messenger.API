@@ -11,13 +11,13 @@ namespace MAX.Messenger.API.Objects
         public string FirstName { get; set; }
 
         [JsonPropertyName("last_name")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonPropertyName("username")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [JsonPropertyName("is_bot")]
         public bool IsBot { get; set; }

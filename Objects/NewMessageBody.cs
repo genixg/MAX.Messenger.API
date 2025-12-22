@@ -7,7 +7,7 @@ namespace MAX.Messenger.API.Requests
     public class NewMessageBody
     {
         [JsonPropertyName("text")]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         [JsonPropertyName("attachments")]
         public IEnumerable<MaxMessageAttachment> Attachments { get; set; }
@@ -19,6 +19,6 @@ namespace MAX.Messenger.API.Requests
         public bool Notify { get; set; } = true;
 
         [JsonPropertyName("format")]
-        public string TextFormat { get; set; } // "markdown", "html"
+        public string? TextFormat { get; set; } // "markdown", "html"
     }
 }

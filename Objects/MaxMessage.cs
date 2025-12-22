@@ -11,13 +11,13 @@ namespace MAX.Messenger.API.Objects
         /// Пользователь, отправивший сообщение
         /// </summary>
         [JsonPropertyName("sender")]
-        public MaxUser Sender { get; set; } = null;
+        public MaxUser? Sender { get; set; } = null;
 
         /// <summary>
         /// Получатель сообщения. Может быть пользователем или чатом
         /// </summary>
         [JsonPropertyName("recipient")]
-        public MaxRecipient Recipient { get; set; }
+        public MaxRecipient? Recipient { get; set; }
 
         /// <summary>
         /// Время создания сообщения в формате Unix-time
@@ -29,24 +29,24 @@ namespace MAX.Messenger.API.Objects
         /// Пересланное или ответное сообщение
         /// </summary>
         [JsonPropertyName("link")]
-        public MaxMessageLink Link { get; set; } = null;
+        public MaxMessageLink? Link { get; set; } = null;
 
         /// <summary>
         /// Содержимое сообщения. Текст + вложения. Может быть null, если сообщение содержит только пересланное сообщение
         /// </summary>
         [JsonPropertyName("body")]
-        public MaxMessageBody Body { get; set; }
+        public MaxMessageBody? Body { get; set; }
 
         /// <summary>
         /// Статистика сообщения.
         /// </summary>
         [JsonPropertyName("stat")]
-        public MaxMessageStat Stat { get; set; } = null;
+        public MaxMessageStat? Stat { get; set; } = null;
 
         /// <summary>
         /// Публичная ссылка на сообщение. Может быть null для диалогов или не публичных чатов
         /// </summary>
         [JsonPropertyName("url")]
-        public string Url { get; set; } = null;
+        public string? Url { get; set; } = null;
     }
 }

@@ -12,6 +12,6 @@ namespace MAX.Messenger.API.Objects
         /// Команды, поддерживаемые ботом
         /// </summary>
         [JsonPropertyName("commands")]
-        public IEnumerable<MaxBotCommand> Commands { get; set; } = null;
+        public IEnumerable<MaxBotCommand>? Commands { get; set; } = null;
     }
 }

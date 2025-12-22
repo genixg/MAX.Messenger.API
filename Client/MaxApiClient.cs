@@ -15,7 +15,7 @@ namespace MAX.Messenger.API.Client
     public class MaxApiClient : IMaxApiClient
     {
         private readonly HttpClient _http;
-        private string token;
+        private readonly string token;
         private readonly JsonSerializerOptions _json;
 
         public MaxApiClient(string token, MaxApiOptions? options = null)
@@ -24,19 +24,18 @@ namespace MAX.Messenger.API.Client
 
             _http = new HttpClient
             {
-                BaseAddress = new Uri("https://platform-api.max.ru/"),
+                BaseAddress = new Uri(options.BaseUrl.TrimEnd('/') + "/"),
                 Timeout = options.Timeout
             };
 
-            this.token = token;
+            this.token = token ?? throw new ArgumentNullException(nameof(token));
 
-            _http.DefaultRequestHeaders.Add("Authorization", token);
+            _http.DefaultRequestHeaders.Add("Authorization", this.token);
 
             _json = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                DefaultIgnoreCondition =
-                    System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
         }
 
@@ -45,7 +44,7 @@ namespace MAX.Messenger.API.Client
             var json = JsonSerializer.Serialize(body, _json);
 
             var resp = await _http.PostAsync(
-                "/messages",
+                "messages",
                 new StringContent(json, Encoding.UTF8, "application/json"));
 
             await EnsureSuccess(resp);
@@ -53,15 +52,11 @@ namespace MAX.Messenger.API.Client
 
         public async Task AnswerCallbackAsync(string callbackId)
         {
-            var payload = new
-            {
-                callback_query_id = callbackId
-            };
-
+            var payload = new { callback_query_id = callbackId };
             var json = JsonSerializer.Serialize(payload, _json);
 
             var resp = await _http.PostAsync(
-                "/messages/answer-callback",
+                "messages/answer-callback",
                 new StringContent(json, Encoding.UTF8, "application/json"));
 
             await EnsureSuccess(resp);
@@ -72,7 +67,7 @@ namespace MAX.Messenger.API.Client
             using var content = new MultipartFormDataContent();
             content.Add(new ByteArrayContent(data), "file", fileName);
 
-            var resp = await _http.PostAsync("/upload", content);
+            var resp = await _http.PostAsync("upload", content);
             await EnsureSuccess(resp);
 
             var json = await resp.Content.ReadAsStringAsync();
@@ -88,73 +83,23 @@ namespace MAX.Messenger.API.Client
             throw new Exception($"MAX API error {(int)resp.StatusCode}: {body}");
         }
 
-        public async Task<string> UploadAsync(
-            byte[] data,
-            string fileName,
-            string contentType)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Post, "files/upload");
-
-            var content = new MultipartFormDataContent();
-            content.Add(new ByteArrayContent(data)
-            {
-                Headers =
-        {
-            ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType)
-        }
-            }, "file", fileName);
-
-            request.Content = content;
-
-            var response = await SendAsync<UploadResponse>(request);
-            return response.FileId;
-        }
-
-        private async Task<T> SendAsync<T>(HttpRequestMessage request)
-        {
-            if (string.IsNullOrEmpty(token))
-                throw new InvalidOperationException("Access token MAX не задан");
-
-            var response = await _http.SendAsync(request);
-
-            var content = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception(
-                    $"MAX API error {(int)response.StatusCode}: {content}");
-            }
-
-            if (typeof(T) == typeof(string))
-            {
-                return (T)(object)content;
-            }
-
-            return JsonSerializer.Deserialize<T>(content, _json);
-        }
-
-        private async Task SendAsync(HttpRequestMessage request)
-        {
-            await SendAsync<object>(request);
-        }
+        // --- ваши доп. методы оставляю как есть (на всякий), но чиню критичное ---
 
         #region Subscriptions
         public async Task<List<MaxSubscription>> GetSubscriptionsAsync()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "subscriptions");
             var response = await SendAsync<MaxSubscriptionsResponse>(request);
-            return (List<MaxSubscription>)response.Subscriptions;
+            return response.Subscriptions?.ToList() ?? new List<MaxSubscription>();
         }
 
         public async Task DeleteSubscriptionAsync(string url)
         {
-            var request = new HttpRequestMessage(HttpMethod.Delete, $"subscriptions?url={url}");
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"subscriptions?url={Uri.EscapeDataString(url)}");
             await SendAsync<object>(request);
         }
 
-        public async Task<MaxSubscription> CreateSubscriptionAsync(
-    string webhookUrl,
-    IEnumerable<string> updateTypes)
+        public async Task<MaxSubscription> CreateSubscriptionAsync(string webhookUrl, IEnumerable<string> updateTypes)
         {
             var body = new MaxSubscriptionRequestData
             {
@@ -162,7 +107,7 @@ namespace MAX.Messenger.API.Client
                 UpdateTypes = updateTypes.ToList()
             };
 
-            var json = JsonSerializer.Serialize(body);
+            var json = JsonSerializer.Serialize(body, _json);
 
             var request = new HttpRequestMessage(HttpMethod.Post, "subscriptions")
             {
@@ -172,15 +117,29 @@ namespace MAX.Messenger.API.Client
             return await SendAsync<MaxSubscription>(request);
         }
         #endregion
-    }
 
+        private async Task<T> SendAsync<T>(HttpRequestMessage request)
+        {
+            if (string.IsNullOrEmpty(token))
+                throw new InvalidOperationException("Access token MAX не задан");
+
+            var response = await _http.SendAsync(request);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"MAX API error {(int)response.StatusCode}: {content}");
+
+            if (typeof(T) == typeof(string))
+                return (T)(object)content;
+
+            return JsonSerializer.Deserialize<T>(content, _json)!;
+        }
+    }
 
     public class UploadResponse
     {
         [JsonPropertyName("file_id")]
-        public string FileId { get; set; }
+        public string FileId { get; set; } = null!;
     }
-
-
 }
 

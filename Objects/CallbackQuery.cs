@@ -5,15 +5,15 @@ namespace MAX.Messenger.API.Objects
     public class CallbackQuery
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; } = null!;
+        public string? Id { get; set; } = null!;
 
         [JsonPropertyName("from")]
-        public MaxUser From { get; set; } = null!;
+        public MaxUser? From { get; set; } = null!;
 
         [JsonPropertyName("message")]
-        public MaxMessage Message { get; set; } = null!;
+        public MaxMessage? Message { get; set; } = null!;
 
         [JsonPropertyName("payload")]
-        public string Payload { get; set; } = null!;
+        public string? Payload { get; set; } = null!;
     }
 }

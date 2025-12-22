@@ -8,6 +8,6 @@ namespace MAX.Messenger.API.Objects
         /// URL изображения
         /// </summary>
         [JsonPropertyName("url")]
-        public string Url { get; set; }
+        public string? Url { get; set; }
     }
 }

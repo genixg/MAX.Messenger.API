@@ -36,13 +36,13 @@ namespace MAX.Messenger.API.Objects
         /// Перечень прав пользователя. Возможные значения: "read_all_messages" "add_remove_members" "add_admins" "change_chat_info" "pin_message" "write" "edit_link"
         /// </summary>
         [JsonPropertyName("permissions")]
-        public IEnumerable<string> Permissions { get; set; }
+        public IEnumerable<string>? Permissions { get; set; }
 
         /// <summary>
         /// Заголовок, который будет показан на клиенте
         /// Если пользователь администратор или владелец и ему не установлено это название, то поле не передаётся, клиенты на своей стороне подменят на "владелец" или "админ"
         /// </summary>
         [JsonPropertyName("alias")]
-        public string Alias { get; set; } = null;
+        public string? Alias { get; set; } = null;
     }
 }

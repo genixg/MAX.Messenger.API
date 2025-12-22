@@ -61,7 +61,7 @@ namespace MAX.Messenger.API.Objects
         /// Участники чата с временем последней активности. Может быть null, если запрашивается список чатов
         /// </summary>
         [JsonPropertyName("participants")]
-        public IEnumerable<MaxUser> Participants { get; set; } = null;
+        public IEnumerable<MaxUser>? Participants { get; set; } = null;
 
         /// <summary>
         /// Доступен ли чат публично (для диалогов всегда false)
@@ -73,7 +73,7 @@ namespace MAX.Messenger.API.Objects
         /// Ссылка на чат
         /// </summary>
         [JsonPropertyName("link")]
-        public string Link { get; set; } = null;
+        public string? Link { get; set; } = null;
 
         /// <summary>
         /// Описание чата
@@ -86,18 +86,18 @@ namespace MAX.Messenger.API.Objects
         /// Данные о пользователе в диалоге (только для чатов типа "dialog")
         /// </summary>
         [JsonPropertyName("dialog_with_user")]
-        public MaxUserWithPhoto DialogWithUser { get; set; } = null;
+        public MaxUserWithPhoto? DialogWithUser { get; set; } = null;
 
         /// <summary>
         /// ID сообщения, содержащего кнопку, через которую был инициирован чат
         /// </summary>
         [JsonPropertyName("chat_message_id")]
-        public string ChatMessageId { get; set; } = null;
+        public string? ChatMessageId { get; set; } = null;
 
         /// <summary>
         /// Закреплённое сообщение в чате (возвращается только при запросе конкретного чата)
         /// </summary>
         [JsonPropertyName("pinned_message")]
-        public MaxMessage PinnedMessage { get; set; } = null;
+        public MaxMessage? PinnedMessage { get; set; } = null;
     }
 }

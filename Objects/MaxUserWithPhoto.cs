@@ -10,18 +10,18 @@ namespace MAX.Messenger.API.Objects
         /// </summary>
         [JsonPropertyName("description")]
         [MaxLength(16000)]
-        public string Description { get; set; } = null;
+        public string? Description { get; set; } = null;
 
         /// <summary>
         /// URL аватара
         /// </summary>
         [JsonPropertyName("avatar_url")]
-        public string AvatarUrl { get; set; } = null;
+        public string? AvatarUrl { get; set; } = null;
 
         /// <summary>
         /// URL аватара большего размера
         /// </summary>
         [JsonPropertyName("full_avatar_url")]
-        public string FullAvatarUrl { get; set; } = null;
+        public string? FullAvatarUrl { get; set; } = null;
     }
 }
