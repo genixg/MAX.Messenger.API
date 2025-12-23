@@ -6,7 +6,8 @@
     <Nullable>enable</Nullable>
 	  
     <PackageId>MAX.Messenger.API</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.2</Version>
+	<PackageVersion>0.1.2</PackageVersion>
     <Authors>Gennady Goncharov</Authors>
     <Company>BizChatBots</Company>
     <Description>Unofficial .NET client for MAX Messenger API</Description>
@@ -14,6 +15,7 @@
 	<PackageTags>max;messenger;bot;api</PackageTags>
 	<PackageProjectUrl>https://github.com/genixg/MAX.Messenger.API</PackageProjectUrl>
 	<PackageIcon>max-icon.png</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<RepositoryUrl>https://github.com/genixg/MAX.Messenger.API</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
 	  
@@ -21,12 +23,18 @@
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<ImplicitUsings>enable</ImplicitUsings>
 	  
+	<PackageReleaseNotes>
+	  - Updated models to match official MAX API
+	  - Bugfixes in webhook handling
+	</PackageReleaseNotes>
+	  
   </PropertyGroup>
 	
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Text.Json" Version="9.0.0" />
 	<None Include="max-icon.png" Pack="true" PackagePath="" />
+	<None Include="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
