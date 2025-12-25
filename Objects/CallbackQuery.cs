@@ -2,18 +2,21 @@
 
 namespace MAX.Messenger.API.Objects
 {
+    /// <summary>
+    /// Объект callback из update_type = message_callback
+    /// </summary>
     public class CallbackQuery
     {
-        [JsonPropertyName("id")]
-        public string? Id { get; set; } = null!;
+        [JsonPropertyName("timestamp")]
+        public long Timestamp { get; set; }
 
-        [JsonPropertyName("from")]
-        public MaxUser? From { get; set; } = null!;
+        [JsonPropertyName("callback_id")]
+        public string CallbackId { get; set; } = null!;
 
-        [JsonPropertyName("message")]
-        public MaxMessage? Message { get; set; } = null!;
+        [JsonPropertyName("user")]
+        public MaxUser? User { get; set; }
 
         [JsonPropertyName("payload")]
-        public string? Payload { get; set; } = null!;
+        public string? Payload { get; set; }
     }
 }

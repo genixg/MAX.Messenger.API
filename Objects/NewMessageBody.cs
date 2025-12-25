@@ -13,7 +13,7 @@ namespace MAX.Messenger.API.Requests
         public IEnumerable<MaxMessageAttachment> Attachments { get; set; }
 
         [JsonPropertyName("link")]
-        public MaxNewMessageLink Link { get; set; }
+        public MaxNewMessageLink? Link { get; set; } = null;
 
         [JsonPropertyName("notify")]
         public bool Notify { get; set; } = true;

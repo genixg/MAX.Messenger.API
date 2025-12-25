@@ -5,36 +5,34 @@ namespace MAX.Messenger.API.Objects
 {
     public class MaxMessageAttachment
     {
+        /// <summary>
+        /// image, video, file, inline_keyboard, etc
+        /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; } // image, video, file, etc
+        public string? Type { get; set; }
 
         /// <summary>
-        /// Запрос на прикрепление изображения (все поля являются взаимоисключающими)
+        /// Payload зависит от type.
+        /// Например:
+        /// - image/file/video: MaxAttachmentPayload
+        /// - inline_keyboard: InlineKeyboardAttachmentRequestPayload
         /// </summary>
         [JsonPropertyName("payload")]
-        public MaxAttachmentPayload? Payload { get; set; }
+        public object? Payload { get; set; }
     }
 
     /// <summary>
-    /// Запрос на прикрепление изображения (все поля являются взаимоисключающими)
+    /// Payload для вложений с token/url/photos (картинки/файлы и т.п.)
+    /// (поля взаимоисключающие, поэтому nullable)
     /// </summary>
     public class MaxAttachmentPayload
     {
-        /// <summary>
-        /// Токены, полученные после загрузки изображений
-        /// </summary>
         [JsonPropertyName("photos")]
         public IEnumerable<string>? Photos { get; set; }
 
-        /// <summary>
-        /// Токен существующего вложения
-        /// </summary>
         [JsonPropertyName("token")]
         public string? Token { get; set; }
 
-        /// <summary>
-        /// Любой внешний URL изображения, которое вы хотите прикрепить
-        /// </summary>
         [JsonPropertyName("url")]
         public string? Url { get; set; }
     }

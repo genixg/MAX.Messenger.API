@@ -23,13 +23,6 @@ namespace MAX.Messenger.API.Objects
         public IEnumerable<MaxSubscription> Subscriptions { get; set; }
     }
 
-    public static class MaxUpdateTypes
-    {
-        public const string MessageCreated = "message_created";
-        public const string BotStarted = "bot_started";
-        public const string MessageCallback = "message_callback";
-    }
-
     public class MaxCreateSubscriptionRequest
     {
         [JsonPropertyName("request")]

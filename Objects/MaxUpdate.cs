@@ -39,5 +39,8 @@ namespace MAX.Messenger.API.Objects
         /// </summary>
         [JsonPropertyName("payload")]
         public string? Payload { get; set; } = null;
+
+        [JsonPropertyName("callback")]
+        public CallbackQuery? Callback { get; set; }
     }
 }

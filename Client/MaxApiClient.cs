@@ -39,25 +39,45 @@ namespace MAX.Messenger.API.Client
             };
         }
 
-        public async Task SendMessageAsync(NewMessageBody body)
+        public async Task SendMessageAsync(NewMessageBody body, long? chatId = null, long? userId = null, bool? disableLinkPreview = null)
         {
+            if (chatId == null && userId == null)
+                throw new ArgumentException("MAX: нужно указать chatId или userId для /messages");
+
+            var qs = new List<string>();
+            if (userId != null) qs.Add($"user_id={userId.Value}");
+            if (chatId != null) qs.Add($"chat_id={chatId.Value}");
+            if (disableLinkPreview != null) qs.Add($"disable_link_preview={disableLinkPreview.Value.ToString().ToLowerInvariant()}");
+
+            var url = "messages" + (qs.Count > 0 ? "?" + string.Join("&", qs) : "");
+
             var json = JsonSerializer.Serialize(body, _json);
-
-            var resp = await _http.PostAsync(
-                "messages",
-                new StringContent(json, Encoding.UTF8, "application/json"));
-
+            var resp = await _http.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
             await EnsureSuccess(resp);
         }
 
-        public async Task AnswerCallbackAsync(string callbackId)
+        public async Task AnswerCallbackAsync(string callbackId, NewMessageBody? body = null, string? notification = null)
         {
-            var payload = new { callback_query_id = callbackId };
-            var json = JsonSerializer.Serialize(payload, _json);
+            if (string.IsNullOrWhiteSpace(callbackId))
+                throw new ArgumentException("callbackId is empty");
+
+            var req = new AnswerCallbackRequest
+            {
+                CallbackId = callbackId,
+                Notification = notification,
+                Message = body
+            };
+            var json = JsonSerializer.Serialize(req, _json);
 
             var resp = await _http.PostAsync(
-                "messages/answer-callback",
+                "answers?callback_id=" + callbackId,
                 new StringContent(json, Encoding.UTF8, "application/json"));
+
+            if (!resp.IsSuccessStatusCode)
+            {
+                var respBody = await resp.Content.ReadAsStringAsync();
+                throw new Exception($"MAX /answers error {(int)resp.StatusCode}: {respBody}");
+            }
 
             await EnsureSuccess(resp);
         }

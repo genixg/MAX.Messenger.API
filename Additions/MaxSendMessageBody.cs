@@ -17,8 +17,5 @@ namespace MAX.Messenger.API.Additions
     {
         [JsonPropertyName("chat_id")]
         public long ChatId { get; set; }
-
-        [JsonPropertyName("keyboard")]
-        public MaxKeyboard? Keyboard { get; set; }
     }
 }

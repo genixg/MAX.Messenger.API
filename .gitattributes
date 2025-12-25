@@ -1,0 +1,4 @@
+* text=auto
+
+README.md text eol=lf
+*.md text eol=lf
