@@ -16,6 +16,7 @@ Unofficial .NET client for MAX Messenger API.
 
 ```bash
 dotnet add package MAX.Messenger.API
+```
 
 
 ## Usage of sending message
@@ -27,6 +28,7 @@ await client.SendMessageAsync(chatId, new NewMessageBody
         Text = "Hello!",
         Format = TextFormat.Markdown
     });
+```
 
 
 ## Usage of recieving messages (Webhook)
@@ -47,6 +49,7 @@ public IActionResult Callback([FromBody] MaxUpdate update)
 
     return Ok();
 }
+```
 
 
 ## Usage of Answering callback
@@ -56,7 +59,7 @@ await client.AnswerCallbackAsync(
     callbackId,
     notification: "Done"
 );
-
+```
 
 ## Notes
 
