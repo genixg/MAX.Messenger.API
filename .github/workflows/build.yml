@@ -60,4 +60,17 @@ jobs:
         run: dotnet pack MAX.Messenger.API.csproj -c Release -p:GeneratePackageOnBuild=false
 
       - name: Push to NuGet
-        run: dotnet nuget push "bin/Release/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key "${{ secrets.NUGET_API_KEY }}" --skip-duplicate
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          if (-not $env:NUGET_API_KEY) {
+            Write-Error "Secret NUGET_API_KEY пуст — проверьте, что он добавлен в environment 'production' (Settings -> Environments -> production -> Secrets)"
+            exit 1
+          }
+          $pkgs = @(Get-ChildItem -Path bin\Release -Filter *.nupkg)
+          if ($pkgs.Count -eq 0) {
+            Write-Error "В bin\Release нет .nupkg файлов"
+            exit 1
+          }
+          dotnet nuget push $pkgs[0].FullName --source https://api.nuget.org/v3/index.json --api-key $env:NUGET_API_KEY --skip-duplicate

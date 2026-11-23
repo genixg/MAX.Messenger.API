@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
 	  
     <PackageId>MAX.Messenger.API</PackageId>
-    <Version>0.2.0</Version>
-	<PackageVersion>0.2.0</PackageVersion>
+    <Version>0.2.1</Version>
+	<PackageVersion>0.2.1</PackageVersion>
     <Authors>Gennady Goncharov</Authors>
     <Company>BizChatBots</Company>
     <Description>Unofficial .NET client for MAX Messenger API</Description>
