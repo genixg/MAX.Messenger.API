@@ -1,0 +1,63 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+
+      - name: Pack
+        run: dotnet pack MAX.Messenger.API.csproj -c Release
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nupkg
+          path: bin/Release/*.nupkg
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-latest
+    environment: production
+    permissions:
+      id-token: write   # требуется для NuGet Trusted Publishing (OIDC)
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+
+      - name: Verify tag matches package version
+        shell: pwsh
+        run: |
+          $ver = (dotnet msbuild MAX.Messenger.API.csproj -getProperty:Version).Trim()
+          $tag = "${{ github.ref_name }}".Substring(1)
+          if ($ver -ne $tag) {
+            Write-Error "Tag v$tag не совпадает с Version=$ver в csproj"
+            exit 1
+          }
+
+      - name: Pack
+        run: dotnet pack MAX.Messenger.API.csproj -c Release
+
+      - name: Push to NuGet
+        run: dotnet nuget push "bin/Release/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key "${{ secrets.NUGET_API_KEY }}" --skip-duplicate
