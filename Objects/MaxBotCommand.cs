@@ -14,7 +14,7 @@ namespace MAX.Messenger.API.Objects
         [JsonPropertyName("name")]
         [MaxLength(64)]
         [MinLength(1)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         /// <summary>
         /// Описание команды (по желанию)

@@ -12,7 +12,7 @@ namespace MAX.Messenger.API.Objects
         /// Уникальный ID сообщения
         /// </summary>
         [JsonPropertyName("mid")]
-        public string Mid { get; set; }
+        public string Mid { get; set; } = null!;
 
         /// <summary>
         /// ID последовательности сообщения в чате
@@ -24,7 +24,7 @@ namespace MAX.Messenger.API.Objects
         /// Новый текст сообщения
         /// </summary>
         [JsonPropertyName("text")]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// Вложения сообщения. Могут быть одним из типов Attachment. Смотрите описание схемы

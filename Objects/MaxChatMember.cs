@@ -33,7 +33,8 @@ namespace MAX.Messenger.API.Objects
         public long JoinTime { get; set; }
 
         /// <summary>
-        /// Перечень прав пользователя. Возможные значения: "read_all_messages" "add_remove_members" "add_admins" "change_chat_info" "pin_message" "write" "edit_link"
+        /// Перечень прав пользователя-администратора (null для обычных участников).
+        /// См. <see cref="Enums.ChatAdminPermission"/>
         /// </summary>
         [JsonPropertyName("permissions")]
         public IEnumerable<string>? Permissions { get; set; }

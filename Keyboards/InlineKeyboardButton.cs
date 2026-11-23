@@ -9,7 +9,8 @@ namespace MAX.Messenger.API.Keyboards
     public class InlineKeyboardButton
     {
         /// <summary>
-        /// callback | link | open_app | request_geo_location | request_contact (и др. если появятся)
+        /// callback | link | open_app | request_geo_location | request_contact | message | clipboard.
+        /// См. <see cref="Enums.InlineKeyboardButtonType"/>
         /// </summary>
         [JsonPropertyName("type")]
         public string Type { get; set; } = null!;

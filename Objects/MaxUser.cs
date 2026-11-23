@@ -8,7 +8,7 @@ namespace MAX.Messenger.API.Objects
         public long UserId { get; set; }
 
         [JsonPropertyName("first_name")]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = null!;
 
         [JsonPropertyName("last_name")]
         public string? LastName { get; set; }

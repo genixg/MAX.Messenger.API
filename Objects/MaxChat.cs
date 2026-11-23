@@ -12,32 +12,34 @@ namespace MAX.Messenger.API.Objects
         public long Id { get; set; }
 
         /// <summary>
-        /// Тип чата: "chat" — Групповой чат.
+        /// Тип чата: "dialog", "chat" или "channel". См. <see cref="Enums.ChatType"/>
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string Type { get; set; } = null!;
 
         /// <summary>
-        /// Статус чата: Enum: "active" "removed" "left" "closed"
+        /// Статус чата для бота: Enum: "active" "removed" "left" "closed" "suspended".
+        /// См. <see cref="Enums.ChatStatus"/>
         /// </summary>
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string Status { get; set; } = null!;
         //"active" — Бот является активным участником чата.
         //"removed" — Бот был удалён из чата.
         //"left" — Бот покинул чат.
         //"closed" — Чат был закрыт.
+        //"suspended" — Бот остановлен пользователем (только для диалогов).
 
         /// <summary>
         /// Отображаемое название чата. Может быть null для диалогов
         /// </summary>
         [JsonPropertyName("title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// Иконка чата
         /// </summary>
         [JsonPropertyName("icon")]
-        public MaxImage Icon { get; set; }
+        public MaxImage? Icon { get; set; }
 
         /// <summary>
         /// Время последнего события в чате
@@ -52,16 +54,23 @@ namespace MAX.Messenger.API.Objects
         public int ParticipantsCount { get; set; }
 
         /// <summary>
+        /// Количество сообщений в чате. Только для групповых чатов и каналов, для диалогов недоступно
+        /// </summary>
+        [JsonPropertyName("messages_count")]
+        public int? MessagesCount { get; set; } = null;
+
+        /// <summary>
         /// ID владельца чата
         /// </summary>
         [JsonPropertyName("owner_id")]
         public long? OwnerId { get; set; } = null;
 
         /// <summary>
-        /// Участники чата с временем последней активности. Может быть null, если запрашивается список чатов
+        /// Участники чата: ключ — user_id, значение — время последней активности (last_access_time).
+        /// Видно только администраторам; может быть null, если запрашивается список чатов
         /// </summary>
         [JsonPropertyName("participants")]
-        public IEnumerable<MaxUser>? Participants { get; set; } = null;
+        public Dictionary<long, long>? Participants { get; set; } = null;
 
         /// <summary>
         /// Доступен ли чат публично (для диалогов всегда false)
@@ -79,7 +88,7 @@ namespace MAX.Messenger.API.Objects
         /// Описание чата
         /// </summary>
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; } = null;
 
 
         /// <summary>

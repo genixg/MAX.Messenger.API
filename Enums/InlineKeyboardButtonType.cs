@@ -8,5 +8,7 @@
         public const string RequestGeoLocation = "request_geo_location";
         public const string RequestContact = "request_contact";
         public const string Message = "message";
+        /// <summary>Копирует payload в буфер обмена</summary>
+        public const string Clipboard = "clipboard";
     }
 }
