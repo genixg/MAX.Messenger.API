@@ -151,6 +151,8 @@ await client.SendMessageAsync(new NewMessageBody { Text = "Look!", Attachments =
 - `GET /chats` is no longer supported by MAX (since June 2026) — use webhook updates to learn where your bot was added
 - `SendMessageAsync` now returns the created `MaxMessage`
 
+- Attention! The new domain platform-api2.max.ru uses a certificate issued by Russian Trusted Root CA (Ministry of Digital Development), so make sure you add it to the trusted certificates on your server. Otherwise, you will receive the error “The SSL connection could not be established”.
+
 ## Links
 
 Official MAX API docs: https://dev.max.ru/docs-api
